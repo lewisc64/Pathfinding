@@ -49,6 +49,7 @@
                 If e.KeyCode = Keys.Enter Then
                     Dim search As New AStarSearch
                     search.searchLoop(grid, display)
+                    grid.drawAllCells(display)
 
                 ElseIf e.KeyCode = Keys.D1 Then
                     mode = 1
