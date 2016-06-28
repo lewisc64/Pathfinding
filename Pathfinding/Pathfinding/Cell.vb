@@ -14,6 +14,14 @@
     Public ix As Integer
     Public iy As Integer
 
+    'SEARCH FIELDS
+    Public hCost As Integer
+    Public gCost As Integer
+    Public fCost As Integer
+
+    Public parent As Cell
+    '-------------
+
     Public Sub New(rect As Rectangle, xindex As Integer, yindex As Integer, Optional type As Byte = States.Empty)
         state = type
         x = rect.X

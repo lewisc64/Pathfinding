@@ -70,6 +70,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AStarSearch.vb" />
     <Compile Include="Cell.vb" />
     <Compile Include="Editor.vb" />
     <Compile Include="Form1.vb">
