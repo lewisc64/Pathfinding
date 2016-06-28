@@ -1,0 +1,211 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Pathfinding
+</name>
+</assembly>
+<members>
+<member name="M:Pathfinding.DrawBase.update">
+	<summary>
+ Renders the display buffer to the form.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.DrawBase.getRect(System.Boolean)">
+	<summary>
+ Gets the display area as a rectangle.
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.DrawBase.blit(System.Drawing.Image,System.Drawing.Rectangle)">
+	<summary>
+ Draws an image to the screen (scaled).
+ </summary>
+	<param name="image"></param>
+	<param name="rect"></param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.DrawBase.blit(System.Drawing.Image,System.Drawing.Point)">
+	<summary>
+ Draws an image to the screen (unscaled).
+ </summary>
+	<param name="image"></param>
+	<param name="point"></param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.VBGame.saveImage(System.Drawing.Bitmap,System.String,System.Drawing.Imaging.ImageFormat)">
+	<summary>
+ Saves image to a file
+ </summary>
+	<param name="image"></param>
+	<param name="path"></param>
+	<param name="format">Default is png format.</param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.VBGame.sliceSpriteSheet(System.Drawing.Image,System.Drawing.Size,System.Int32,System.Boolean)">
+	<summary>
+ Seperates images from a larger image. Operates from left to right, then moving down.
+ </summary>
+	<param name="sheet">Image of spritesheet.</param>
+	<param name="rowcolumn">Amount of images in the width and height.</param>
+	<param name="nimages">How many images from the sheet should be sliced.</param>
+	<param name="reverse">To reverse the individual images after slicing.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.VBGame.setDisplay(System.Windows.Forms.Form@,System.Drawing.Size,System.String,System.Boolean,System.Boolean)">
+	<summary>
+ Configures VBGame for operation. Must be called before starting game loop.
+ </summary>
+	<param name="f">Form that will be drawn on.</param>
+	<param name="resolution">Width and height of display area, in pixels.</param>
+	<param name="title">String that will be displayed on title bar.</param>
+	<param name="sharppixels">Enabling this will turn off pixel smoothing. Good for pixel art.</param>
+	<param name="fullscreen"></param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.VBGame.clockTick(System.Double)">
+	<summary>
+ Waits so that the specified fps can be achieved.
+ </summary>
+	<param name="fps"></param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.VBGame.getTime">
+	<summary>
+ Gets the time in milliseconds since the last clockTick()
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:Pathfinding.VBGame">
+	<summary>
+ Game loop must be in a thread.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Surface.#ctor(System.Drawing.Rectangle,Pathfinding.VBGame)">
+	<summary>
+	</summary>
+	<param name="rect"></param>
+	<param name="parentdisplay">Display to draw on.</param>
+	<remarks></remarks>
+</member><member name="T:Pathfinding.Surface">
+	<summary>
+ Gets a portion of the display given to do drawing operations on.
+ Anything drawn outside of the bounds of the surface will not be drawn on the parent display.
+ Surfaces are static.
+ </summary>
+	<remarks></remarks>
+</member><member name="P:Pathfinding.Sound.volume">
+	<summary>
+ Changing this will update the volume.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Sound.play(System.Boolean)">
+	<summary>
+	</summary>
+	<param name="repeat">If enabled, the sound will loop. Note: this does not work with .wav files.</param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Animation.#ctor(System.Drawing.Image,System.Drawing.Size,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+	<summary>
+	</summary>
+	<param name="strip">Image of spritesheet.</param>
+	<param name="rowcolumn">Amount of images in the width and height.</param>
+	<param name="nframes">How many images from the sheet should be sliced.</param>
+	<param name="reverse">To reverse the individual images after slicing.</param>
+	<param name="animloop">If enabled, the animation will loop.</param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Animation.getFramesFromStrip(System.Drawing.Image,System.Drawing.Size,System.Int32,System.Boolean)">
+	<summary>
+ See VBGame.sliceSpriteSheet()
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Animation.handle">
+	<summary>
+ Used in conjection with VBGame.blit(), this will pick the image to return based on a timer.
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Animation.getFrame(System.Boolean)">
+	<summary>
+ Gets the next frame.
+ </summary>
+	<param name="loopanim"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Animations.handle">
+	<summary>
+ Returns a frame from the active animation.
+ </summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Pathfinding.Sprite.xc">
+	<summary>
+ How much the x value of the sprite should move when move() is called.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Pathfinding.Sprite.yc">
+	<summary>
+ How much the y value of the sprite should move when move() is called.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Sprite.normalizeAngle">
+	<summary>
+ Ensures the sprite's angle is between 0 and 360 degrees.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Sprite.keepInBounds(System.Drawing.Rectangle,System.Boolean,System.Boolean)">
+	<summary>
+ Keeps the sprite in a rectangle.
+ </summary>
+	<param name="bounds">Rectangle container.</param>
+	<param name="trig">Whether or not the sprite is using angled movement.</param>
+	<param name="bounce">If enabled, the sprite will change it's movement to give the appearence of bouncing.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="F:Pathfinding.Button.display">
+	<summary>
+ Put in vbgame.getMouseEvents() loop.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Button.#ctor(Pathfinding.VBGame@,System.String,System.Drawing.Rectangle,System.String,System.Int32)">
+	<summary>
+	</summary>
+	<param name="vbgame">Display to draw onto.</param>
+	<param name="textt">Text to display on the button.</param>
+	<param name="rect">Rectangle of the button</param>
+	<param name="fontnamet"></param>
+	<param name="fontsizet"></param>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Button.calculateFontSize">
+	<summary>
+ Calculates the font size based on the current rectangle.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Button.draw">
+	<summary>
+ Draws the button. Keep out of event loops.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Pathfinding.Button.handle(Pathfinding.MouseEvent)">
+	<summary>
+ Put inside the VBGame.getMouseEvents() loop. Will return the MouseEvent of a successful click.
+ </summary>
+	<param name="e">MouseEvent from loop.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Pathfinding.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Pathfinding.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Pathfinding.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>
