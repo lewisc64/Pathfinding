@@ -1,10 +1,10 @@
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\bin\Debug\Pathfinding.exe.config
-E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.Form1.resources
-E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.Resources.resources
-E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.vbproj.GenerateResource.Cache
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\bin\Debug\Pathfinding.exe
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\bin\Debug\Pathfinding.pdb
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\bin\Debug\Pathfinding.xml
+E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.Form1.resources
+E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.Resources.resources
+E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.vbproj.GenerateResource.Cache
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.exe
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.xml
 E:\coding\GitHub\Pathfinding\Pathfinding\Pathfinding\obj\Debug\Pathfinding.pdb

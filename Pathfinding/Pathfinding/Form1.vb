@@ -13,6 +13,7 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         adjustSize()
         thread.Start()
+        display.mouse = New MouseEventArgs(Windows.Forms.MouseButtons.None, 0, 0, 0, 0)
     End Sub
 
     Public Sub adjustSize()
