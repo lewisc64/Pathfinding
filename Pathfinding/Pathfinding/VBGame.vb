@@ -4,6 +4,7 @@ Option Strict On
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Threading
+Imports System.Text.RegularExpressions
 
 Public Class MouseEvent
 
@@ -143,7 +144,7 @@ Public Class DrawBase
     ''' <param name="rect"></param>
     ''' <remarks></remarks>
     Sub blit(image As Image, rect As Rectangle)
-        displaybuffer.Graphics.DrawImage(image, rect, -0.5, -0.5, image.Width, image.Height, GraphicsUnit.Pixel)
+        displaybuffer.Graphics.DrawImage(image, shiftRect(rect), -0.5, -0.5, image.Width, image.Height, GraphicsUnit.Pixel)
     End Sub
 
     ''' <summary>
@@ -155,7 +156,6 @@ Public Class DrawBase
     Sub blit(image As Image, point As Point)
         If Not IsNothing(image) Then
             displaybuffer.Graphics.DrawImageUnscaled(image, shiftPoint(point))
-            image.Dispose()
         End If
     End Sub
 
@@ -291,15 +291,15 @@ Public Class VBGame
     ''' Seperates images from a larger image. Operates from left to right, then moving down.
     ''' </summary>
     ''' <param name="sheet">Image of spritesheet.</param>
-    ''' <param name="rowcolumn">Amount of images in the width and height.</param>
+    ''' <param name="size">Amount of images in the width and height.</param>
     ''' <param name="nimages">How many images from the sheet should be sliced.</param>
     ''' <param name="reverse">To reverse the individual images after slicing.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function sliceSpriteSheet(sheet As Image, rowcolumn As Size, Optional nimages As Integer = 0, Optional reverse As Boolean = False) As List(Of Image)
+    Public Shared Function sliceSpriteSheet(sheet As Image, size As Size, Optional nimages As Integer = 0, Optional reverse As Boolean = False) As List(Of Image)
         Dim list As New List(Of Image)
         Dim n As Integer = 0
-        Dim image As Image = New Bitmap(CInt(sheet.Width / rowcolumn.Width), CInt(sheet.Height / rowcolumn.Height))
+        Dim image As Image = New Bitmap(CInt(sheet.Width / size.Width), CInt(sheet.Height / size.Height))
         Dim g As Graphics = Graphics.FromImage(image)
         g.SmoothingMode = Drawing2D.SmoothingMode.None
         g.InterpolationMode = Drawing2D.InterpolationMode.NearestNeighbor
@@ -1312,5 +1312,67 @@ Class TextInput
         mdisplay.blit(display.getImage(), getRect())
 
     End Sub
+
+End Class
+
+Class SimpleFont
+
+    Private image As Image
+    Private characters As New List(Of Image)
+
+    Public result As Image
+
+
+    Public Sub New(sheet As Image)
+
+        image = sheet
+
+        characters = VBGame.sliceSpriteSheet(image, New Size(10, 4))
+
+        Dim blank As Bitmap = New Bitmap(characters(0).Width, characters(0).Height)
+        blank.MakeTransparent()
+
+        characters.Add(blank)
+    End Sub
+
+    Public Function measure(s As String) As Size
+        Return New Size(s.Length * characters(0).Width, characters(0).Height)
+    End Function
+
+    Public Function getChar(c As Char) As Image
+        If Regex.IsMatch(c, "[0-9]") Then
+            Return characters(CInt(Val(c)))
+        ElseIf Regex.IsMatch(c, "[a-z]") Then
+            Return characters(Asc(c) - Asc("a") + 10)
+        ElseIf c = "!" Then
+            Return characters(36)
+        ElseIf c = "?" Then
+            Return characters(37)
+        ElseIf c = "," Then
+            Return characters(38)
+        ElseIf c = "." Then
+            Return characters(39)
+        Else
+            Return characters(40)
+        End If
+    End Function
+
+    Public Function render(s As String) As Image
+        Dim bitmap As Bitmap = New Bitmap(characters(0).Width * s.Length, characters(0).Height)
+
+        Dim graphics As Graphics = graphics.FromImage(bitmap)
+
+        s = s.ToLower()
+
+        For x = 0 To bitmap.Width - characters(0).Width Step characters(0).Width
+
+            graphics.DrawImageUnscaled(getChar(CChar(s.Substring(CInt(x / characters(0).Width), 1))), New Point(x, 0))
+
+        Next
+
+        result = bitmap
+
+        Return bitmap
+    End Function
 
 End Class

@@ -113,6 +113,10 @@
                 End If
             Next
 
+            If open.Count = 0 Then
+                Return False
+            End If
+
             'drawCells(open, VBGame.green, display)
             'drawCells(closed, VBGame.red, display)
 

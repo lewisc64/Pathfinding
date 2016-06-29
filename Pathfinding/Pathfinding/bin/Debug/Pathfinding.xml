@@ -6,7 +6,20 @@ Pathfinding
 </name>
 </assembly>
 <members>
-<member name="M:Pathfinding.DrawBase.update">
+<member name="P:Pathfinding.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Pathfinding.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Pathfinding.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:Pathfinding.DrawBase.update">
 	<summary>
  Renders the display buffer to the form.
  </summary>
@@ -44,7 +57,7 @@ Pathfinding
  Seperates images from a larger image. Operates from left to right, then moving down.
  </summary>
 	<param name="sheet">Image of spritesheet.</param>
-	<param name="rowcolumn">Amount of images in the width and height.</param>
+	<param name="size">Amount of images in the width and height.</param>
 	<param name="nimages">How many images from the sheet should be sliced.</param>
 	<param name="reverse">To reverse the individual images after slicing.</param>
 	<returns></returns>
@@ -193,19 +206,6 @@ Pathfinding
 	<param name="e">MouseEvent from loop.</param>
 	<returns></returns>
 	<remarks></remarks>
-</member><member name="P:Pathfinding.My.Resources.Resources.ResourceManager">
-	<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member><member name="P:Pathfinding.My.Resources.Resources.Culture">
-	<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member><member name="T:Pathfinding.My.Resources.Resources">
-	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
 </member>
 </members>
 </doc>
