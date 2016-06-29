@@ -114,8 +114,7 @@
                 display.pushMouseEvent(New MouseEvent(display.mouse.Location, MouseEvent.actions.up, MouseEvent.buttons.right))
             End If
 
-                display.update()
-                display.clockTick(30)
+            display.update()
 
         End While
 
