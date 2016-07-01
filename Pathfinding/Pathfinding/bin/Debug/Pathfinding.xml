@@ -118,7 +118,7 @@ Pathfinding
 	<summary>
 	</summary>
 	<param name="strip">Image of spritesheet.</param>
-	<param name="rowcolumn">Amount of images in the width and height.</param>
+	<param name="size">Amount of images in the width and height.</param>
 	<param name="nframes">How many images from the sheet should be sliced.</param>
 	<param name="reverse">To reverse the individual images after slicing.</param>
 	<param name="animloop">If enabled, the animation will loop.</param>

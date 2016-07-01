@@ -1,10 +1,24 @@
 ﻿Public Class AStarSearch
 
-    Public moveCost As Integer = 10
+    Public moveCost As Integer = 1
+
+    Public tieBreaker As Boolean = True
 
     Public Sub calculateHCost(ByRef cell As Cell, finish As Point)
-        Dim start As Point = cell.getIndexXY()
-        cell.hCost = (Math.Abs(start.X - finish.X) + Math.Abs(start.Y - finish.Y)) * moveCost
+        Dim current As Point = cell.getIndexXY()
+
+        Dim dx, dy, dx2, dy2 As Double
+
+        dx = Math.Abs(current.X - finish.X)
+        dy = Math.Abs(current.Y - finish.Y)
+
+        cell.hCost = dx + dy 'MANHATTAN
+
+        If tieBreaker Then
+            dx2 = 1 - finish.X
+            dy2 = 1 - finish.Y
+            cell.hCost += Math.Abs(dx * dy2 - dx2 * dy) * 0.01
+        End If
     End Sub
 
     Public Sub calculateGCost(ByRef cell As Cell)
@@ -32,16 +46,24 @@
 
         For x As Integer = -1 To 1
             For y As Integer = -1 To 1
-                If (x = 0 OrElse y = 0) AndAlso (Not (x = 0 AndAlso y = 0)) Then
-                    Try
+                Try
+                    If (x = 0 OrElse y = 0) AndAlso (Not (x = 0 AndAlso y = 0)) Then
                         neighbors.Add(grid.cells(currentPoint.X + x, currentPoint.Y + y))
-                    Catch
-                    End Try
-                End If
+                    End If
+                Catch
+                End Try
             Next
         Next
         Return neighbors
     End Function
+
+    Public Sub wait(display As VBGame)
+        While True
+            For Each e As KeyEventArgs In display.getKeyUpEvents()
+                Exit While
+            Next
+        End While
+    End Sub
 
     Public Sub drawLine(current As Cell, display As VBGame)
         Try
@@ -88,6 +110,7 @@
 
             If current.getIndexXY() = grid.finishpoint Then
                 drawLine(current, display)
+                wait(display)
                 Return True
             End If
 

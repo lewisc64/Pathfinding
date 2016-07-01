@@ -133,10 +133,6 @@ Public Class DrawBase
         drawRect(getRect(), color)
     End Sub
 
-    Sub setPixel(point As Point, color As System.Drawing.Color)
-        drawRect(New Rectangle(point.X + x, point.Y + y, 1, 1), color)
-    End Sub
-
     ''' <summary>
     ''' Draws an image to the screen (scaled).
     ''' </summary>
@@ -144,7 +140,9 @@ Public Class DrawBase
     ''' <param name="rect"></param>
     ''' <remarks></remarks>
     Sub blit(image As Image, rect As Rectangle)
-        displaybuffer.Graphics.DrawImage(image, shiftRect(rect), -0.5, -0.5, image.Width, image.Height, GraphicsUnit.Pixel)
+        If Not IsNothing(image) Then
+            displaybuffer.Graphics.DrawImage(image, shiftRect(rect), -0.5, -0.5, image.Width, image.Height, GraphicsUnit.Pixel)
+        End If
     End Sub
 
     ''' <summary>
@@ -185,12 +183,11 @@ Public Class DrawBase
             Next
         End If
 
-        If points.Length >= 2 Then
-            Dim pen As New Pen(color, width)
-            pen.Alignment = Drawing2D.PenAlignment.Center
-            displaybuffer.Graphics.DrawLines(pen, points)
-            pen.Dispose()
-        End If
+        Dim pen As New Pen(color, width)
+        pen.Alignment = Drawing2D.PenAlignment.Center
+        displaybuffer.Graphics.DrawLines(pen, points)
+        pen.Dispose()
+
     End Sub
 
     Sub drawLine(point1 As Point, point2 As Point, color As System.Drawing.Color, Optional width As Integer = 1)
@@ -347,10 +344,11 @@ Public Class VBGame
         Else
             form.Invoke(Sub() form.FormBorderStyle = Windows.Forms.FormBorderStyle.FixedSingle)
             form.Invoke(Sub() form.WindowState = FormWindowState.Normal)
+            form.Invoke(Sub() form.MaximizeBox = False)
         End If
 
         displaycontext = BufferedGraphicsManager.Current
-        parentgraphics = form.CreateGraphics
+        parentgraphics = form.CreateGraphics()
         allocate()
 
         If sharppixels Then
@@ -461,6 +459,7 @@ Public Class VBGame
         End While
         fpstimer.Reset()
         fpstimer.Start()
+
     End Sub
 
     ''' <summary>
@@ -661,16 +660,16 @@ Public Class Animation
     ''' 
     ''' </summary>
     ''' <param name="strip">Image of spritesheet.</param>
-    ''' <param name="rowcolumn">Amount of images in the width and height.</param>
+    ''' <param name="size">Amount of images in the width and height.</param>
     ''' <param name="nframes">How many images from the sheet should be sliced.</param>
     ''' <param name="reverse">To reverse the individual images after slicing.</param>
     ''' <param name="animloop">If enabled, the animation will loop.</param>
     ''' <remarks></remarks>
-    Sub New(strip As Image, rowcolumn As Size, timing As Integer, Optional nframes As Integer = 0, Optional reverse As Boolean = False, Optional animloop As Boolean = True)
+    Sub New(strip As Image, size As Size, timing As Integer, Optional nframes As Integer = 0, Optional reverse As Boolean = False, Optional animloop As Boolean = True)
         loopanim = animloop
         index = 0
         interval = timing
-        getFramesFromStrip(strip, rowcolumn, nframes, reverse)
+        getFramesFromStrip(strip, size, nframes, reverse)
         playing = False
     End Sub
 
@@ -1340,8 +1339,8 @@ Class SimpleFont
     End Function
 
     Public Function getChar(c As Char) As Image
-        If Regex.IsMatch(c, "[0-9]") Then
-            Return characters(CInt(Val(c)))
+        If Regex.IsMatch(c, "[1-9]") Then
+            Return characters(CInt(Val(c)) - 1)
         ElseIf Regex.IsMatch(c, "[a-z]") Then
             Return characters(Asc(c) - Asc("a") + 10)
         ElseIf c = "!" Then
@@ -1352,6 +1351,8 @@ Class SimpleFont
             Return characters(38)
         ElseIf c = "." Then
             Return characters(39)
+        ElseIf c = "0" Then
+            Return characters(9)
         Else
             Return characters(40)
         End If

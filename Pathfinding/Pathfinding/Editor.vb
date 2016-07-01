@@ -52,7 +52,7 @@
 
             Next
 
-            For Each e As KeyEventArgs In display.getKeyDownEvents()
+            For Each e As KeyEventArgs In display.getKeyUpEvents()
                 If e.KeyCode = Keys.Enter Then
                     Dim search As New AStarSearch
                     Dim startpresent, finishpresent As Boolean
