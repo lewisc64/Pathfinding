@@ -2,7 +2,7 @@
 
     Public moveCost As Integer = 1
 
-    Public tieBreaker As Boolean = True
+    Public tieBreaker As Boolean = False 'DOES NOT FIND SHORTEST ROUTE
 
     Public Sub calculateHCost(ByRef cell As Cell, finish As Point)
         Dim current As Point = cell.getIndexXY()
