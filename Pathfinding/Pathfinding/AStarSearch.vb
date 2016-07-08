@@ -36,7 +36,7 @@
     Public Sub drawCells(cells As List(Of Cell), color As System.Drawing.Color, display As VBGame)
         For Each Cell As Cell In cells
             display.drawRect(Cell.getRect(), color)
-            display.drawText(Cell.getRect(), Cell.fCost, VBGame.black, New Font("Ariel", 8))
+            display.drawText(Cell.getRect(), Cell.fCost, VBGame.black, New Font("Arial", 8))
         Next
     End Sub
 
