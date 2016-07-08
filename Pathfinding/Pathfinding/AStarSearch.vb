@@ -1,10 +1,10 @@
-﻿Public Class AStarSearch
+Public Class AStarSearch
 
     Public moveCost As Integer = 1
 
-    Public tieBreaker As Boolean = False 'DOES NOT FIND SHORTEST ROUTE
+    Public tieBreaker As Boolean = False 'Something funky is going on...
 
-    Public Sub calculateHCost(ByRef cell As Cell, finish As Point)
+    Public Sub calculateHCost(ByRef cell As Cell, start As Point, finish As Point)
         Dim current As Point = cell.getIndexXY()
 
         Dim dx, dy, dx2, dy2 As Double
@@ -65,17 +65,23 @@
         End While
     End Sub
 
-    Public Sub drawLine(current As Cell, display As VBGame)
+    Public Function getLine(current As Cell, Optional ByRef line As List(Of Point) = Nothing) As List(Of Point)
+        If IsNothing(line) Then
+            line = New List(Of Point)
+            line.Add(New Point(current.x + (current.side / 2), current.y + (current.side / 2)))
+        End If
         Try
-            display.drawLine(New Point(current.x + (current.side / 2), current.y + (current.side / 2)), New Point(current.parent.x + (current.parent.side / 2), current.parent.y + (current.parent.side / 2)), VBGame.blue, current.side / 5)
-            display.update()
-            display.clockTick(15)
-            drawLine(current.parent, display)
+            'display.drawLine(New Point(current.x + (current.side / 2), current.y + (current.side / 2)), New Point(current.parent.x + (current.parent.side / 2), current.parent.y + (current.parent.side / 2)), VBGame.blue, current.side / 5)
+            'display.update()
+            'display.clockTick(15)
+            line.Add(New Point(current.parent.x + (current.parent.side / 2), current.parent.y + (current.parent.side / 2)))
+            Return getLine(current.parent, line)
         Catch
+            Return line
         End Try
-    End Sub
+    End Function
 
-    Public Function searchLoop(grid As Grid, display As VBGame) As Boolean
+    Public Function searchLoop(grid As Grid, display As VBGame, Optional stepThrough As Boolean = True) As List(Of Point)
 
         Dim open As New List(Of Cell)
         Dim closed As New List(Of Cell)
@@ -104,14 +110,22 @@
             Next
 
             closed.Add(current)
-            display.drawRect(current.getRect(), VBGame.red)
+
+            If stepThrough Then
+                display.drawRect(current.getRect(), VBGame.red)
+            End If
 
             open.Remove(current)
 
             If current.getIndexXY() = grid.finishpoint Then
-                drawLine(current, display)
-                wait(display)
-                Return True
+                Dim line As List(Of Point)
+                line = getLine(current)
+                If stepThrough Then
+                    display.drawLines(line.ToArray(), VBGame.blue, grid.side / 5)
+                    display.update()
+                    wait(display)
+                End If
+                Return line
             End If
 
             For Each Cell As Cell In getNeighbors(grid, current)
@@ -121,14 +135,16 @@
 
                         Cell.gCost = current.gCost + moveCost
 
-                        calculateHCost(Cell, grid.finishpoint)
+                        calculateHCost(Cell, grid.startpoint, grid.finishpoint)
                         calculateFCost(Cell)
 
                         Cell.parent = current
 
                         If Not open.Contains(Cell) Then
                             open.Add(Cell)
-                            display.drawRect(Cell.getRect(), VBGame.green)
+                            If stepThrough Then
+                                display.drawRect(Cell.getRect(), VBGame.green)
+                            End If
                         End If
 
                     End If
@@ -137,22 +153,17 @@
             Next
 
             If open.Count = 0 Then
-                Return False
+                Return New List(Of Point)
             End If
 
-            'drawCells(open, VBGame.green, display)
-            'drawCells(closed, VBGame.red, display)
-
-            'display.drawRect(current.getRect(), Color.Purple)
-
-            'drawLine(current, display)
-
-            display.update()
-            display.clockTick(60)
+            If stepThrough Then
+                display.update()
+                display.clockTick(60)
+            End If
 
         End While
 
-        Return True
+        Return New List(Of Point)
 
     End Function
 
